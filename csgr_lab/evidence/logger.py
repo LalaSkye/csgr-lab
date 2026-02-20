@@ -11,7 +11,6 @@ import json
 from pathlib import Path
 from typing import Any
 
-
 GENESIS_HASH = "0" * 64  # SHA-256 of nothing
 
 
@@ -42,7 +41,7 @@ class EvidenceLogger:
         if not last_line:
             return GENESIS_HASH
         record = json.loads(last_line)
-        return record.get("hash", GENESIS_HASH)
+        return str(record.get("hash", GENESIS_HASH))
 
     def _compute_hash(self, prev_hash: str, payload: str) -> str:
         """Compute SHA-256 hash of previous hash concatenated with payload."""
@@ -61,7 +60,7 @@ class EvidenceLogger:
         payload = json.dumps(evidence, sort_keys=True, separators=(",", ":"))
         current_hash = self._compute_hash(self._prev_hash, payload)
 
-        record = {
+        record: dict[str, Any] = {
             "prev_hash": self._prev_hash,
             "hash": current_hash,
             "payload": evidence,
@@ -90,6 +89,7 @@ class EvidenceLogger:
                 line = line.strip()
                 if not line:
                     continue
+
                 count += 1
                 record = json.loads(line)
 
