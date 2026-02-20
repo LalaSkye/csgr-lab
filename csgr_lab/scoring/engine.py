@@ -12,11 +12,12 @@ import hashlib
 import json
 from dataclasses import asdict
 from datetime import datetime, timezone
+from typing import Any
 from uuid import uuid4
 
 from csgr_lab.contracts.schema import ContractSpec
-from csgr_lab.contracts.validators import ContractResult, validate_contract
 from csgr_lab.contracts.types import RunId
+from csgr_lab.contracts.validators import ContractResult, validate_contract
 
 
 def _make_run_id() -> RunId:
@@ -69,36 +70,36 @@ class ScoringRun:
 
     @property
     def run_id(self) -> RunId:
-        return self._run_id
+        return self._run_id  # type: ignore[attr-defined]
 
     @property
     def contract_id(self) -> str:
-        return self._contract_id
+        return self._contract_id  # type: ignore[attr-defined]
 
     @property
     def input_hash(self) -> str:
-        return self._input_hash
+        return self._input_hash  # type: ignore[attr-defined]
 
     @property
     def result(self) -> ContractResult:
-        return self._result
+        return self._result  # type: ignore[attr-defined]
 
     @property
     def timestamp(self) -> str:
-        return self._timestamp
+        return self._timestamp  # type: ignore[attr-defined]
 
     @property
     def measurements(self) -> dict[str, float]:
-        return dict(self._measurements)
+        return dict(self._measurements)  # type: ignore[attr-defined]
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, Any]:
         return {
-            "run_id": self._run_id,
-            "contract_id": self._contract_id,
-            "input_hash": self._input_hash,
-            "timestamp": self._timestamp,
-            "measurements": self._measurements,
-            "result": asdict(self._result),
+            "run_id": self._run_id,  # type: ignore[attr-defined]
+            "contract_id": self._contract_id,  # type: ignore[attr-defined]
+            "input_hash": self._input_hash,  # type: ignore[attr-defined]
+            "timestamp": self._timestamp,  # type: ignore[attr-defined]
+            "measurements": self._measurements,  # type: ignore[attr-defined]
+            "result": asdict(self._result),  # type: ignore[attr-defined]
         }
 
 
@@ -126,7 +127,6 @@ class ScoringEngine:
         run_id = _make_run_id()
         input_hash = _hash_inputs(contract, measurements)
         timestamp = datetime.now(timezone.utc).isoformat()
-
         result = validate_contract(contract, measurements)
 
         return ScoringRun(
@@ -147,7 +147,7 @@ class ScoringEngine:
         """Verify that scoring is deterministic across multiple runs."""
         hashes = set()
         for _ in range(n_runs):
-            h = _hash_inputs(contract, measurements)
+            _hash_inputs(contract, measurements)
             run = self.score(contract, measurements)
             hashes.add(run.result.status.value)
         return len(hashes) == 1
