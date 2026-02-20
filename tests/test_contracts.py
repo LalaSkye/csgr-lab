@@ -1,6 +1,7 @@
 """Tests for the contracts module."""
 
 import pytest
+from pydantic import ValidationError
 
 from csgr_lab.contracts.schema import ClauseSpec, ContractSpec
 from csgr_lab.contracts.types import ContractStatus, SeverityLevel
@@ -38,7 +39,7 @@ class TestClauseSpec:
 
     def test_clause_is_frozen(self):
         clause = _make_clause()
-        with pytest.raises(Exception):
+        with pytest.raises(ValidationError):
             clause.metric = "changed"
 
     def test_severity_default(self):
@@ -54,11 +55,11 @@ class TestContractSpec:
 
     def test_contract_is_frozen(self):
         contract = _make_contract()
-        with pytest.raises(Exception):
+        with pytest.raises(ValidationError):
             contract.name = "changed"
 
     def test_requires_at_least_one_clause(self):
-        with pytest.raises(Exception):
+        with pytest.raises(ValidationError):
             _make_contract(clauses=())
 
 
