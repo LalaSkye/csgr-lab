@@ -3,12 +3,11 @@
 from __future__ import annotations
 
 import operator as op
+from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import Mapping
 
 from csgr_lab.contracts.schema import ClauseSpec, ContractSpec
 from csgr_lab.contracts.types import ContractStatus, SeverityLevel
-
 
 _OPS = {
     ">": op.gt,
@@ -112,6 +111,7 @@ def validate_contract(
                 )
             )
             continue
+
         measured = measurements[clause.metric]
         results.append(_evaluate_clause(clause, measured))
 
