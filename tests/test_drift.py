@@ -107,10 +107,9 @@ class TestDriftDetector:
         assert reports[0].metric == "a"
 
     def test_drift_report_is_frozen(self):
+        import pytest
+
         detector = DriftDetector()
         report = detector.analyze("m", [1.0, 2.0, 3.0], 2.0)
-        try:
+        with pytest.raises(AttributeError):
             report.metric = "tampered"
-            assert False, "Should have raised"
-        except AttributeError:
-            pass
