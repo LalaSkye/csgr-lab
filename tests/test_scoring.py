@@ -3,7 +3,7 @@
 import pytest
 
 from csgr_lab.contracts.schema import ClauseSpec, ContractSpec
-from csgr_lab.contracts.types import ContractStatus, SeverityLevel
+from csgr_lab.contracts.types import ContractStatus
 from csgr_lab.scoring.engine import ScoringEngine, ScoringRun, _hash_inputs
 
 
