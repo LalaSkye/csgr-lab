@@ -1,8 +1,6 @@
 """Tests for the evidence logger with hash-chain integrity."""
 
 import json
-import tempfile
-from pathlib import Path
 
 from csgr_lab.evidence.logger import EvidenceLogger, GENESIS_HASH
 
@@ -44,12 +42,14 @@ class TestEvidenceLogger:
         logger = EvidenceLogger(log_path)
         logger.log({"a": 1})
         logger.log({"b": 2})
+
         # Tamper with the log
         lines = log_path.read_text().strip().split("\n")
         record = json.loads(lines[0])
         record["payload"]["a"] = 999
         lines[0] = json.dumps(record, separators=(",", ":"))
         log_path.write_text("\n".join(lines) + "\n")
+
         # Re-open and verify
         logger2 = EvidenceLogger(log_path)
         is_valid, count, detail = logger2.verify_chain()
@@ -59,6 +59,7 @@ class TestEvidenceLogger:
         log_path = tmp_path / "evidence.jsonl"
         logger1 = EvidenceLogger(log_path)
         r1 = logger1.log({"first": True})
+
         # New logger instance recovers last hash
         logger2 = EvidenceLogger(log_path)
         assert logger2.last_hash == r1["hash"]
