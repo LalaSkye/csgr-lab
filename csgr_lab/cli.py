@@ -25,7 +25,9 @@ app = typer.Typer(
 def score(
     contract_path: Annotated[Path, typer.Argument(help="Path to contract JSON file")],
     measurements_path: Annotated[Path, typer.Argument(help="Path to measurements JSON file")],
-    evidence_dir: Annotated[Path | None, typer.Option(help="Override evidence output directory")] = None,
+    evidence_dir: Annotated[
+        Path | None, typer.Option(help="Override evidence output directory")
+    ] = None,
     json_output: Annotated[bool, typer.Option("--json", help="Output as JSON")] = False,
 ) -> None:
     """Score a contract against measurements."""
@@ -35,7 +37,6 @@ def score(
 
     contract_data = json.loads(contract_path.read_text())
     contract = ContractSpec(**contract_data)
-
     measurements = json.loads(measurements_path.read_text())
 
     engine = ScoringEngine()
@@ -64,7 +65,9 @@ def score(
 
 @app.command()
 def verify(
-    evidence_dir: Annotated[Path | None, typer.Option(help="Override evidence directory")] = None,
+    evidence_dir: Annotated[
+        Path | None, typer.Option(help="Override evidence directory")
+    ] = None,
 ) -> None:
     """Verify the integrity of the evidence chain."""
     settings = Settings()
