@@ -70,23 +70,23 @@ class ScoringRun:
 
     @property
     def run_id(self) -> RunId:
-        return self._run_id  # type: ignore[attr-defined]
+        return self._run_id  # type: ignore[attr-defined, no-any-return]
 
     @property
     def contract_id(self) -> str:
-        return self._contract_id  # type: ignore[attr-defined]
+        return self._contract_id  # type: ignore[attr-defined, no-any-return]
 
     @property
     def input_hash(self) -> str:
-        return self._input_hash  # type: ignore[attr-defined]
+        return self._input_hash  # type: ignore[attr-defined, no-any-return]
 
     @property
     def result(self) -> ContractResult:
-        return self._result  # type: ignore[attr-defined]
+        return self._result  # type: ignore[attr-defined, no-any-return]
 
     @property
     def timestamp(self) -> str:
-        return self._timestamp  # type: ignore[attr-defined]
+        return self._timestamp  # type: ignore[attr-defined, no-any-return]
 
     @property
     def measurements(self) -> dict[str, float]:
