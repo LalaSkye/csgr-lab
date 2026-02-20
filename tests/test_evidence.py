@@ -1,5 +1,7 @@
 """Tests for the evidence logger with hash-chain integrity."""
 
+from __future__ import annotations
+
 import json
 
 from csgr_lab.evidence.logger import EvidenceLogger, GENESIS_HASH
