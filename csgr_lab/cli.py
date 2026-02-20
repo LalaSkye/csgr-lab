@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
+from typing import Annotated
 
 import typer
 
@@ -23,10 +23,10 @@ app = typer.Typer(
 
 @app.command()
 def score(
-    contract_path: Path = typer.Argument(..., help="Path to contract JSON file"),
-    measurements_path: Path = typer.Argument(..., help="Path to measurements JSON file"),
-    evidence_dir: Path = typer.Option(None, help="Override evidence output directory"),
-    json_output: bool = typer.Option(False, "--json", help="Output as JSON"),
+    contract_path: Annotated[Path, typer.Argument(help="Path to contract JSON file")],
+    measurements_path: Annotated[Path, typer.Argument(help="Path to measurements JSON file")],
+    evidence_dir: Annotated[Path | None, typer.Option(help="Override evidence output directory")] = None,
+    json_output: Annotated[bool, typer.Option("--json", help="Output as JSON")] = False,
 ) -> None:
     """Score a contract against measurements."""
     settings = Settings()
@@ -49,12 +49,14 @@ def score(
     else:
         status = run.result.status.value.upper()
         typer.echo(f"Contract: {contract.name}")
-        typer.echo(f"Status:   {status}")
-        typer.echo(f"Pass: {run.result.pass_count} | "
-                   f"Fail: {run.result.fail_count} | "
-                   f"Warn: {run.result.warn_count}")
-        typer.echo(f"Run ID:   {run.run_id}")
-        typer.echo(f"Hash:     {run.input_hash[:16]}...")
+        typer.echo(f"Status: {status}")
+        typer.echo(
+            f"Pass: {run.result.pass_count} | "
+            f"Fail: {run.result.fail_count} | "
+            f"Warn: {run.result.warn_count}"
+        )
+        typer.echo(f"Run ID: {run.run_id}")
+        typer.echo(f"Hash: {run.input_hash[:16]}...")
 
     if run.result.status.value == "fail":
         raise typer.Exit(code=1)
@@ -62,7 +64,7 @@ def score(
 
 @app.command()
 def verify(
-    evidence_dir: Path = typer.Option(None, help="Override evidence directory"),
+    evidence_dir: Annotated[Path | None, typer.Option(help="Override evidence directory")] = None,
 ) -> None:
     """Verify the integrity of the evidence chain."""
     settings = Settings()
