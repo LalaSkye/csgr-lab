@@ -1,6 +1,6 @@
 """Core type definitions for the CSGR contract system."""
 
-from enum import Enum, auto
+from enum import Enum
 from typing import NewType
 
 
