@@ -12,7 +12,7 @@ Contracted stability and drift measurement for LLM behaviour — deterministic s
 
 ## Why This Exists
 
-You cannot govern what you cannot measure. Most LLM evaluation tools focus on quality metrics — helpfulness, coherence, preference. This tool focuses on contract conformance: did the system do what it was specified to do, and can you prove it? Every scoring run produces immutable, hash-chained evidence. Same inputs always produce the same scores. `csgr-lab` is the measurement layer that feeds into the governance architecture: authority gates and commit boundaries can only enforce contracts that have been scored and logged.
+You cannot govern what you cannot measure. Most LLM evaluation tools focus on quality metrics — helpfulness, coherence, preference. This tool focuses on contract conformance: did the system do what it was specified to do, and can you prove it? Every scoring run produces immutable, hash-chained evidence. Same inputs always produce the same scores. `csgr-lab` is the measurement layer that feeds into the governance architecture: execution gates and commit boundaries can only enforce contracts that have been scored and logged.
 
 ---
 
@@ -143,7 +143,7 @@ pytest tests/ -v
 
 ## Relationship to Other Repositories
 
-`csgr-lab` sits at the audit and evidence layer of the control stack. It consumes outputs from systems governed by authority gates and commit boundaries (see [constraint-workshop](https://github.com/LalaSkye/constraint-workshop)), and produces the tamper-evident evidence trail that proves contract conformance. The drift detection output surfaces whether behaviour has changed between versions — information that feeds back into [invariant-lock](https://github.com/LalaSkye/invariant-lock) enforcement decisions.
+`csgr-lab` sits at the audit and evidence layer of the control stack. It consumes outputs from systems governed by execution gates and commit boundaries (see [constraint-workshop](https://github.com/LalaSkye/constraint-workshop)), and produces the tamper-evident evidence trail that proves contract conformance. The drift detection output surfaces whether behaviour has changed between versions — information that feeds back into [invariant-lock](https://github.com/LalaSkye/invariant-lock) enforcement decisions.
 
 ---
 
@@ -155,7 +155,7 @@ pytest tests/ -v
 | [dual-boundary-admissibility-lab](https://github.com/LalaSkye/dual-boundary-admissibility-lab) | Full corridor | Dual-boundary model with pressure monitoring and C-sector rotation |
 | [execution-boundary-lab](https://github.com/LalaSkye/execution-boundary-lab) | Execution boundary | Demonstrates cascading failures without upstream governance |
 | [stop-machine](https://github.com/LalaSkye/stop-machine) | Control primitive | Deterministic three-state stop controller |
-| [constraint-workshop](https://github.com/LalaSkye/constraint-workshop) | Control primitives | Authority gate, invariant litmus, stop machine |
+| [constraint-workshop](https://github.com/LalaSkye/constraint-workshop) | Control primitives | Execution gate, invariant litmus, stop machine |
 | [csgr-lab](https://github.com/LalaSkye/csgr-lab) | Measurement | Contracted stability and drift measurement |
 | [invariant-lock](https://github.com/LalaSkye/invariant-lock) | Drift prevention | Refuse execution unless version increments |
 | [policy-lint](https://github.com/LalaSkye/policy-lint) | Policy validation | Deterministic linter for governance statements |
@@ -178,3 +178,8 @@ No rights to use, reproduce, or implement are granted without explicit permissio
 **Repository owner:** [LalaSkye](https://github.com/LalaSkye)
 **Status:** Active research / architecture work
 **Part of:** [Execution Boundary Series](https://github.com/LalaSkye) — TrinityOS / AlvianTech
+
+---
+
+This repository demonstrates deterministic control using standard engineering techniques. No proprietary frameworks or external implementations are used.
+
